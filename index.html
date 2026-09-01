@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samy Mallmann — Engenharia da Computação</title>
+<meta name="description" content="Samy Yano Mallmann, estudante de Engenharia da Computação na UFAM. Hardware digital (Verilog, FPGA) e software (Java, Python, C, JavaScript), com interesse em IA. Aberto a estágio.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Samy Mallmann — Engenharia da Computação">
+<meta property="og:description" content="Estudante de Engenharia da Computação na UFAM. Do circuito desenhado em Verilog ao código que roda em cima dele.">
+<meta property="og:image" content="assets/samy.jpg">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2304182b'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' fill='%2357a8dc' text-anchor='middle'%3ESM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- cursor customizado (posicionado via JS) -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <header id="siteHeader">
+    <div class="container">
+      <a href="#top" class="brand" aria-label="Início"><span class="brand-dot"></span>Início</a>
+      <nav class="primary-nav">
+        <ul>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#competencias">Competências</a></li>
+          <li><a href="#formacao">Formação</a></li>
+          <li><a href="#projetos">Projetos</a></li>
+          <li><a href="#destaques">Destaques</a></li>
+        </ul>
+        <a href="#contato" class="nav-cta" data-cursor="link">Contato</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#competencias">Competências</a></li>
+        <li><a href="#formacao">Formação</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#destaques">Destaques</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <canvas id="hero-canvas"></canvas>
+      <div class="container">
+        <div class="hero-tag"><span class="status-dot"></span>DISPONÍVEL PARA ESTÁGIO · UFAM, MANAUS</div>
+        <h1>Samy Yano<br>Mallmann</h1>
+        <div class="hero-photo">
+          <img src="assets/samy.jpg" alt="Samy Yano Mallmann" loading="lazy">
+        </div>
+        <p class="role-line">// Engenharia da Computação — Hardware &amp; Software</p>
+        <p class="lede">Do circuito desenhado em Verilog ao código que roda em cima dele. Estudante de Engenharia da Computação, com prática em sistemas embarcados, programação e um interesse forte em inteligência artificial.</p>
+        <div class="hero-actions">
+          <a href="#projetos" class="btn btn-primary" data-cursor="link">
+            Ver projetos
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#contato" class="btn btn-ghost" data-cursor="link">Falar comigo</a>
+          <a href="assets/curriculo-samy-mallmann.pdf" download class="btn btn-ghost" data-cursor="link">
+            Baixar currículo
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+          </a>
+        </div>
+        <div class="hero-links">
+          <a class="icon-link" href="mailto:samymallmann@gmail.com" aria-label="Gmail" data-cursor="link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
+          </a>
+          <a class="icon-link" href="https://github.com/samymallmann" target="_blank" rel="noopener" aria-label="GitHub" data-cursor="link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.04-.02-2.04-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.81 1.1.81 2.22 0 1.6-.01 2.89-.01 3.29 0 .32.22.7.83.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          </a>
+          <a class="icon-link" href="https://linkedin.com/in/samy-mallmann" target="_blank" rel="noopener" aria-label="LinkedIn" data-cursor="link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          </a>
+          <a class="icon-link" href="https://www.instagram.com/samy_mallmann_/" target="_blank" rel="noopener" aria-label="Instagram" data-cursor="link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a class="icon-link" href="https://wa.me/5592993168794" target="_blank" rel="noopener" aria-label="WhatsApp" data-cursor="link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a9 9 0 0 0-7.75 13.5L3 21l4.6-1.23A9 9 0 1 0 12 3z"/><path d="M8.5 8.5c0 4 3 7 7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="scroll-cue"><span class="line"></span>SCROLL</div>
+    </section>
+
+    <!-- ================= SOBRE ================= -->
+    <section id="sobre">
+      <div class="container">
+        <div class="eyebrow">0x01 · SOBRE MIM</div>
+        <div class="about-grid">
+          <div data-reveal>
+            <p>Estudante de Engenharia da Computação na UFAM, em Manaus. Minha trajetória passa por dois mundos que normalmente andam separados: eletrônica digital — projetando e simulando circuitos em Verilog, testando em placas FPGA — e desenvolvimento de software, com Java, Python, C e os primeiros passos em JavaScript.</p>
+            <p>Tenho bastante interesse em inteligência artificial e uso ferramentas de IA no dia a dia, tanto pra estudar quanto pra desenvolver. Inglês fluente, com certificação pela University of Michigan.</p>
+            <div class="about-callout">→ Buscando uma oportunidade de estágio pra aprofundar esse caminho entre hardware e software.</div>
+          </div>
+          <div data-reveal style="--delay: 120ms">
+            <div class="spec-sheet">
+              <div class="spec-sheet-head">DATASHEET.md</div>
+              <dl style="margin:0">
+                <div class="spec-row"><dt>Nome</dt><dd>Samy Yano Mallmann</dd></div>
+                <div class="spec-row"><dt>Instituição</dt><dd>UFAM</dd></div>
+                <div class="spec-row"><dt>Curso</dt><dd>Eng. da Computação</dd></div>
+                <div class="spec-row"><dt>Período</dt><dd>6º</dd></div>
+                <div class="spec-row"><dt>Local</dt><dd>Manaus, BR</dd></div>
+                <div class="spec-row"><dt>Idiomas</dt><dd>PT-BR · EN (Michigan)</dd></div>
+                <div class="spec-row"><dt>Status</dt><dd>Aberto a estágio</dd></div>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= COMPETÊNCIAS ================= -->
+    <section id="competencias">
+      <div class="container">
+        <div class="eyebrow">0x02 · COMPETÊNCIAS</div>
+        <div class="section-head">
+          <h2>Ferramentas que uso pra construir dos dois lados.</h2>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-module" data-reveal>
+            <h3>HARDWARE &amp; SISTEMAS DIGITAIS</h3>
+            <div class="chip-list">
+              <span class="chip">Verilog</span>
+              <span class="chip">Quartus Prime</span>
+              <span class="chip">FPGA · DE10-Lite</span>
+              <span class="chip">LTSpice</span>
+              <span class="chip">Arduino</span>
+              <span class="chip">MATLAB</span>
+            </div>
+          </div>
+          <div class="skill-module" data-reveal style="--delay: 90ms">
+            <h3>SOFTWARE</h3>
+            <div class="chip-list">
+              <span class="chip">Java</span>
+              <span class="chip">Python</span>
+              <span class="chip">C</span>
+              <span class="chip">JavaScript</span>
+              <span class="chip">HTML &amp; CSS</span>
+              <span class="chip">Git</span>
+            </div>
+          </div>
+          <div class="skill-module" data-reveal style="--delay: 180ms">
+            <h3>IA &amp; FERRAMENTAS</h3>
+            <div class="chip-list">
+              <span class="chip">ChatGPT</span>
+              <span class="chip">Claude</span>
+              <span class="chip">LLMs aplicados a dev</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FORMAÇÃO ================= -->
+    <section id="formacao">
+      <div class="container">
+        <div class="eyebrow">0x03 · FORMAÇÃO</div>
+        <div class="section-head">
+          <h2>Formação e cursos</h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item" data-reveal>
+            <div class="timeline-date">2024 — ATUAL</div>
+            <h3>Engenharia da Computação — UFAM</h3>
+            <p>6º período. Início em 2024.</p>
+          </div>
+          <div class="timeline-item" data-reveal style="--delay: 60ms">
+            <div class="timeline-date">2024</div>
+            <h3>Curso de Lógica de Programação — Alura</h3>
+            <p>Lógica de programação aplicada a JavaScript e HTML.</p>
+          </div>
+          <div class="timeline-item" data-reveal style="--delay: 120ms">
+            <div class="timeline-date">2024</div>
+            <h3>Prototipação com Arduino Básico — Samsung Ocean</h3>
+            <p>Introdução a sistemas embarcados e prototipação eletrônica com Arduino.</p>
+          </div>
+          <div class="timeline-item" data-reveal style="--delay: 180ms">
+            <div class="timeline-date">2018 — 2020</div>
+            <h3>Curso Profissionalizante em Informática — Instituto Cedaspy</h3>
+            <p>Redes, hardware, software, produção de documentos e análise de dados.</p>
+          </div>
+          <div class="timeline-item" data-reveal style="--delay: 240ms">
+            <div class="timeline-date">2020</div>
+            <h3>Curso de Desenvolvimento de Carreira — Instituto Cedaspy</h3>
+            <p>Atendimento ao cliente, técnicas de vendas e planejamento de publicações.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PROJETOS ================= -->
+    <section id="projetos">
+      <div class="container">
+        <div class="eyebrow">0x04 · PROJETOS</div>
+        <div class="section-head">
+          <h2>Projetos em destaque</h2>
+          <p>Uma seleção do que já foi codado, sintetizado e testado em placa de verdade.</p>
+        </div>
+        <div class="project-grid">
+
+          <!-- Projeto 1: Acompanhamento em Saúde (sistema pronto, em uso real) -->
+          <article class="project-card" data-reveal data-tilt data-project="saude" tabindex="0" role="button" aria-haspopup="dialog">
+            <div class="project-addr">0x04.1 · EM USO REAL</div>
+            <div class="project-visual">
+              <div class="pulse-illustration">
+                <svg viewBox="0 0 120 48" fill="none">
+                  <polyline points="0,24 20,24 28,8 36,40 44,4 52,24 120,24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <h3>Acompanhamento em Saúde</h3>
+            <p class="project-desc">Sistema web pronto e em uso real, pro atendimento farmacêutico a idosos de uma associação comunitária — substitui fichas de papel e planilhas. Cadastro dos atendidos, histórico de atendimentos (sinais vitais, condições, medicamentos), módulo financeiro de eventos, controle de acesso com aprovação e uma ficha de campo offline que roda sem internet.</p>
+            <div class="tag-row">
+              <span class="tag">React</span>
+              <span class="tag">TypeScript</span>
+              <span class="tag">Supabase</span>
+              <span class="tag">Tailwind CSS</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/samymallmann/acompanhamento-em-saude" target="_blank" rel="noopener" data-cursor="link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Ver no GitHub
+              </a>
+            </div>
+            <div class="status-pill"><span class="dot live"></span>EM USO REAL · DADOS REAIS</div>
+            <div class="project-expand">Ver detalhes do projeto
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </div>
+          </article>
+
+          <!-- Projeto 2: Blackjack FPGA -->
+          <article class="project-card" data-reveal data-tilt data-project="blackjack" tabindex="0" role="button" aria-haspopup="dialog" style="--delay: 100ms">
+            <div class="project-addr">0x04.2 · REPOSITÓRIO PÚBLICO</div>
+            <div class="project-visual">
+              <div class="cards-illustration">
+                <span>A♠</span><span>K♦</span><span>7♣</span>
+              </div>
+            </div>
+            <h3>Blackjack em Verilog (FPGA)</h3>
+            <p class="project-desc">Jogo de Blackjack completo, implementado em Verilog pra placa DE10-Lite. Máquina de estados controla o fluxo do jogo, cartas geradas pseudoaleatoriamente, Ás flexível (1 ou 11), resultado em displays de 7 segmentos e LEDs.</p>
+            <div class="tag-row">
+              <span class="tag">Verilog</span>
+              <span class="tag">FSM</span>
+              <span class="tag">FPGA</span>
+              <span class="tag">Quartus Prime</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/samymallmann/Blackjack-verilog-fpga" target="_blank" rel="noopener" data-cursor="link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Ver no GitHub
+              </a>
+              <a href="https://youtu.be/oDG7Yr56WwU" target="_blank" rel="noopener" data-cursor="link">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                Ver demonstração
+              </a>
+            </div>
+            <div class="project-expand">Ver detalhes do projeto
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </div>
+          </article>
+
+          <!-- Projeto 2: Sistema Bancário Concorrente -->
+          <article class="project-card" data-reveal data-tilt data-project="bancario" tabindex="0" role="button" aria-haspopup="dialog" style="--delay: 200ms">
+            <div class="project-addr">0x04.3 · REPOSITÓRIO PÚBLICO</div>
+            <div class="project-visual">
+              <div class="buffer-illustration">
+                <div class="ring"></div>
+                <i></i><i></i><i></i>
+              </div>
+            </div>
+            <h3>Sistema Bancário Concorrente</h3>
+            <p class="project-desc">Simulação de operações bancárias concorrentes em C, feita pra disciplina de Sistemas Operacionais. Usa threads POSIX rodando ao mesmo tempo pra mostrar, na prática, os erros de leitura e escrita causados por acesso e alteração simultâneos — com e sem sincronização (mutexes e semáforos), pra comparar o grau de erro entre as duas versões.</p>
+            <div class="tag-row">
+              <span class="tag">C</span>
+              <span class="tag">pthreads</span>
+              <span class="tag">Mutexes &amp; Semáforos</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/samymallmann/sistema-bancario-concorrente" target="_blank" rel="noopener" data-cursor="link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Ver no GitHub
+              </a>
+            </div>
+            <div class="status-pill"><span class="dot live"></span>PRONTO</div>
+            <div class="project-expand">Ver detalhes do projeto
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </div>
+          </article>
+
+          <!-- Projeto 3: MIPS Pipeline (em andamento) -->
+          <article class="project-card in-progress" data-reveal data-tilt data-project="mips" tabindex="0" role="button" aria-haspopup="dialog" style="--delay: 300ms">
+            <div class="project-addr">0x04.4 · EM DESENVOLVIMENTO</div>
+            <div class="project-visual">
+              <div class="pipeline-illustration">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+            <h3>Processador MIPS com Pipeline</h3>
+            <p class="project-desc">Processador MIPS com pipeline de 5 estágios em Verilog, tratando hazards de controle, dados e estruturais. Embarcado em FPGA e testado com um algoritmo de ordenação. Projeto atual da disciplina de Arquitetura de Sistemas Digitais.</p>
+            <div class="tag-row">
+              <span class="tag">Verilog</span>
+              <span class="tag">MIPS</span>
+              <span class="tag">Pipeline</span>
+            </div>
+            <div class="status-pill"><span class="dot"></span>REPOSITÓRIO APÓS AVALIAÇÃO</div>
+            <div class="project-expand">Ver detalhes do projeto
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DESTAQUES ================= -->
+    <section id="destaques">
+      <div class="container">
+        <div class="eyebrow">0x05 · DESTAQUES</div>
+        <div class="section-head">
+          <h2>Destaques acadêmicos</h2>
+        </div>
+        <div class="highlight-grid">
+          <div class="highlight-card" data-reveal>
+            <div class="project-addr">01</div>
+            <h3>Aprovado — Universidade de Coimbra</h3>
+            <p>Aprovação em Engenharia Eletrotécnica e de Computadores.</p>
+          </div>
+          <div class="highlight-card" data-reveal style="--delay: 90ms">
+            <div class="project-addr">02</div>
+            <h3>Expo Amazônia &amp; TIC</h3>
+            <p>Participação com palestras sobre inteligência artificial e aplicações.</p>
+          </div>
+          <div class="highlight-card" data-reveal style="--delay: 180ms">
+            <div class="project-addr">03</div>
+            <h3>Olimpíadas científicas</h3>
+            <p>Classificado três vezes consecutivas para a 2ª fase da OBMEP, 2ª fase da OBF e até a 4ª fase da ONHB.</p>
+          </div>
+          <div class="highlight-card" data-reveal style="--delay: 270ms">
+            <div class="project-addr">04</div>
+            <h3>Aprovado no ECCE — University of Michigan</h3>
+            <p>Aprovado no processo seletivo do ano passado e certificado com inglês fluente, nível B2.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTATO ================= -->
+    <section id="contato">
+      <div class="container">
+        <div class="eyebrow">0x06 · CONTATO</div>
+        <div class="contact-inner">
+          <div data-reveal>
+            <h2>Vamos conversar.</h2>
+            <p class="lede">Aberto a oportunidades de estágio e conversas sobre hardware, software ou IA.</p>
+          </div>
+          <div class="contact-links" data-reveal style="--delay: 120ms">
+            <a class="contact-profile" href="mailto:samymallmann@gmail.com" aria-label="Gmail" data-cursor="link">
+              <span class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
+              </span>
+              <span class="contact-meta"><strong>Gmail</strong><small>samymallmann@gmail.com</small></span>
+            </a>
+            <a class="contact-profile" href="https://github.com/samymallmann" target="_blank" rel="noopener" aria-label="GitHub" data-cursor="link">
+              <span class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.04-.02-2.04-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.49 5.92.43.37.81 1.1.81 2.22 0 1.6-.01 2.89-.01 3.29 0 .32.22.7.83.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              </span>
+              <span class="contact-meta"><strong>GitHub</strong><small>@samymallmann</small></span>
+            </a>
+            <a class="contact-profile" href="https://linkedin.com/in/samy-mallmann" target="_blank" rel="noopener" aria-label="LinkedIn" data-cursor="link">
+              <span class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+              </span>
+              <span class="contact-meta"><strong>LinkedIn</strong><small>samy-mallmann</small></span>
+            </a>
+            <a class="contact-profile" href="https://www.instagram.com/samy_mallmann_/" target="_blank" rel="noopener" aria-label="Instagram" data-cursor="link">
+              <span class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+              </span>
+              <span class="contact-meta"><strong>Instagram</strong><small>@samy_mallmann_</small></span>
+            </a>
+            <a class="contact-profile" href="https://wa.me/5592993168794" target="_blank" rel="noopener" aria-label="WhatsApp" data-cursor="link">
+              <span class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a9 9 0 0 0-7.75 13.5L3 21l4.6-1.23A9 9 0 1 0 12 3z"/><path d="M8.5 8.5c0 4 3 7 7 7"/></svg>
+              </span>
+              <span class="contact-meta"><strong>WhatsApp</strong><small>+55 92 99316-8794</small></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <span>Samy Yano Mallmann · Manaus, Brasil</span>
+        <span>© 2026</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ================= MODAL DE DETALHES DO PROJETO ================= -->
+  <div class="project-modal" id="projectModal" aria-hidden="true">
+    <div class="project-modal-backdrop" data-modal-close></div>
+    <div class="project-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+      <button type="button" class="project-modal-close" data-modal-close aria-label="Fechar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="project-modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
