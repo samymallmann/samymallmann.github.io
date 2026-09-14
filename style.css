@@ -902,6 +902,19 @@
   .pipeline-illustration span:nth-child(4){ opacity:.5; }
   .pipeline-illustration span:nth-child(5){ opacity:.35; }
 
+  /* mini palavra binária pro card do assembler MIPS */
+  .binary-illustration{ display: flex; flex-wrap: wrap; gap: 3px; width: 116px; }
+  .binary-illustration span{
+    width: 12px; height: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    color: var(--ink-faint);
+  }
+  .binary-illustration span.on{ color: var(--accent-bright); border-color: var(--accent); }
+
   /* =========================================================
      DESTAQUES
      ========================================================= */
