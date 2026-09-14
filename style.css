@@ -902,31 +902,25 @@
   .pipeline-illustration span:nth-child(4){ opacity:.5; }
   .pipeline-illustration span:nth-child(5){ opacity:.35; }
 
-  /* tabela de palavras de 32 bits surgindo de cima pra baixo, pro card do assembler MIPS */
-  .binary-table-illustration{
+  /* tabela minimalista de bits surgindo da esquerda pra direita, pro card do assembler MIPS */
+  .bit-table-illustration{
     display: flex;
     flex-direction: column;
-    gap: 11px;
+    gap: 13px;
     font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 1px;
+    font-size: 14px;
+    letter-spacing: 4px;
   }
-  .binary-table-illustration .binary-row{
+  .bit-table-illustration .bit-row{ display: flex; }
+  .bit-table-illustration .bit{
     opacity: 0;
-    transform: translateY(-6px);
-    animation: binary-row-in 5s ease-in-out infinite;
     color: var(--ink-faint);
+    animation: bit-in 4s ease-in-out infinite;
   }
-  .binary-table-illustration .binary-row:nth-child(1){ animation-delay: 0s;    color: var(--accent-bright); }
-  .binary-table-illustration .binary-row:nth-child(2){ animation-delay: .5s;  color: var(--accent); }
-  .binary-table-illustration .binary-row:nth-child(3){ animation-delay: 1s; }
-  .binary-table-illustration .binary-row:nth-child(4){ animation-delay: 1.5s; color: var(--accent); }
-  .binary-table-illustration .binary-row:nth-child(5){ animation-delay: 2s;   color: var(--accent-bright); }
-  @keyframes binary-row-in{
-    0%{   opacity: 0; transform: translateY(-6px); }
-    10%{  opacity: 1; transform: translateY(0); }
-    80%{  opacity: 1; transform: translateY(0); }
-    100%{ opacity: 0; transform: translateY(4px); }
+  .bit-table-illustration .bit.on{ color: var(--accent-bright); }
+  @keyframes bit-in{
+    0%, 100%{ opacity: 0; }
+    8%, 92%{ opacity: 1; }
   }
 
   /* =========================================================
@@ -1034,5 +1028,5 @@
     html{ scroll-behavior: auto; }
     [data-reveal]{ opacity: 1; transform: none; transition: none; }
     .status-dot, .scroll-cue .line::after, .buffer-illustration i, .pulse-illustration polyline, .status-pill .dot.live{ animation: none; }
-    .binary-table-illustration .binary-row{ animation: none; opacity: 1; transform: none; }
+    .bit-table-illustration .bit{ animation: none; opacity: 1; }
   }
