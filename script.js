@@ -174,10 +174,11 @@
       assembler: {
         addr: '0x04.5 · REPOSITÓRIO PÚBLICO',
         title: 'Assembler para MIPS',
-        tags: ['Python', 'MIPS', 'Assembler'],
+        tags: ['Python', 'MIPS', 'FPGA', 'Quartus Prime'],
         body: [
           'Montador de duas passadas para o subconjunto de MIPS decodificado pelo processador do projeto de pipeline: resolve rótulos, calcula offsets de branch/jump e codifica cada instrução em binário de 32 bits, pronto pro $readmemb. Reconhece um padrão fixo de exatamente 12 instruções — add, sub, and, or, slt, sll, addi, lw, sw, beq, bne, j — nem uma a mais, espelhando de propósito o que o processador realmente decodifica.',
-          'Inclui um script interativo que aplica esse motor ao programa de ordenação por inserção (sort/swap) do enunciado, pra qualquer vetor de entrada — sem precisar remontar tudo à mão a cada teste novo. O binário gerado foi validado byte a byte contra o testbench do processador e testado funcionalmente com 9 vetores diferentes.'
+          'Inclui um script interativo que aplica esse motor ao programa de ordenação por inserção (sort/swap) do enunciado, pra qualquer vetor de entrada — sem precisar remontar tudo à mão a cada teste novo. O binário gerado foi validado byte a byte contra o testbench do processador e testado funcionalmente com 9 vetores diferentes.',
+          'O .bin final é copiado pra pasta do projeto no Quartus Prime (mesma pasta do .qpf), substituindo o arquivo que de10lite_top.v aponta como INSTR_INIT_FILE — daí é só recompilar e regravar a placa DE10-Lite pra rodar o programa montado.'
         ],
         video: 'zOfsZKP2RnM',
         status: { text: 'PRONTO', live: true },
