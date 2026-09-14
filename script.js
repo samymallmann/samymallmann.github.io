@@ -179,6 +179,7 @@
           'Montador de duas passadas para o subconjunto de MIPS decodificado pelo processador do projeto de pipeline: resolve rótulos, calcula offsets de branch/jump e codifica cada instrução em binário de 32 bits, pronto pro $readmemb. Reconhece um padrão fixo de exatamente 12 instruções — add, sub, and, or, slt, sll, addi, lw, sw, beq, bne, j — nem uma a mais, espelhando de propósito o que o processador realmente decodifica.',
           'Inclui um script interativo que aplica esse motor ao programa de ordenação por inserção (sort/swap) do enunciado, pra qualquer vetor de entrada — sem precisar remontar tudo à mão a cada teste novo. O binário gerado foi validado byte a byte contra o testbench do processador e testado funcionalmente com 9 vetores diferentes.'
         ],
+        video: 'zOfsZKP2RnM',
         status: { text: 'PRONTO', live: true },
         links: [
           { href: 'https://github.com/samymallmann/mips-assembler', label: 'Ver no GitHub', type: 'code' }
