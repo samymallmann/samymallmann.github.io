@@ -162,7 +162,7 @@
         ]
       },
       mips: {
-        addr: '0x04.4 · EM DESENVOLVIMENTO',
+        addr: '0x04.5 · EM DESENVOLVIMENTO',
         title: 'Processador MIPS com Pipeline',
         tags: ['Verilog', 'MIPS', 'Pipeline'],
         body: [
@@ -172,7 +172,7 @@
         status: { text: 'REPOSITÓRIO APÓS AVALIAÇÃO', live: false }
       },
       assembler: {
-        addr: '0x04.5 · REPOSITÓRIO PÚBLICO',
+        addr: '0x04.4 · REPOSITÓRIO PÚBLICO',
         title: 'Assembler para MIPS',
         tags: ['Python', 'MIPS', 'FPGA', 'Quartus Prime'],
         body: [
