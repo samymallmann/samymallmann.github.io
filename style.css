@@ -928,15 +928,6 @@
     0%, 44%, 50%, 100%{ transform: scaleY(1); }
     47%{ transform: scaleY(.1); }
   }
-  .chat-illustration .chat-time{
-    align-self: center;
-    margin-left: -34px;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: var(--ink-faint);
-    margin-bottom: 2px;
-  }
   .chat-illustration .msg{
     display: flex;
     flex-direction: column;
