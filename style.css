@@ -909,9 +909,28 @@
     align-items: flex-start;
     gap: 6px;
     width: 150px;
+    position: relative;
+    padding-left: 34px;
+    box-sizing: content-box;
+  }
+  /* avatar do bot ao lado das mensagens, piscando de vez em quando */
+  .chat-illustration .chat-bot{
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 26px; height: 26px;
+    color: var(--accent);
+  }
+  .chat-illustration .chat-bot .eyes{
+    transform-origin: 12px 12px;
+    animation: blink 5s ease-in-out infinite;
+  }
+  @keyframes blink{
+    0%, 44%, 50%, 100%{ transform: scaleY(1); }
+    47%{ transform: scaleY(.1); }
   }
   .chat-illustration .chat-time{
     align-self: center;
+    margin-left: -34px;
     font-family: var(--mono);
     font-size: 10px;
     letter-spacing: 1px;
@@ -1079,5 +1098,5 @@
     [data-reveal]{ opacity: 1; transform: none; transition: none; }
     .status-dot, .scroll-cue .line::after, .buffer-illustration i, .pulse-illustration polyline, .status-pill .dot.live{ animation: none; }
     .bit-table-illustration .bit{ animation: none; opacity: 1; }
-    .chat-illustration .msg, .chat-illustration .msg.typing i{ animation: none; opacity: 1; }
+    .chat-illustration .msg, .chat-illustration .msg.typing i, .chat-illustration .chat-bot .eyes{ animation: none; opacity: 1; }
   }
