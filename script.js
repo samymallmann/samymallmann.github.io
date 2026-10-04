@@ -114,6 +114,7 @@
     var lastFocused = null;
 
     var iconCode = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
+    var iconBot = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="12" y1="2.5" x2="12" y2="6"/><circle cx="12" cy="2.5" r="1" fill="currentColor" stroke="none"/><rect x="4" y="6" width="16" height="13" rx="4"/><circle cx="9" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.5" fill="currentColor" stroke="none"/><path d="M9.5 16h5"/></svg>';
     var iconPlay = '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>';
 
     // dados de cada projeto — texto usado pra montar o conteúdo do modal
@@ -166,12 +167,21 @@
         title: 'Assistente Acadêmico',
         tags: ['Python', 'Claude (IA)', 'GitHub Actions', 'Google APIs', 'Notion API', 'Telegram'],
         body: [
-          'Na faculdade, prova e prazo nem sempre aparecem como atividade no Classroom. Muitas vezes é só um aviso no mural ("na próxima segunda é a primeira prova") ou um e-mail do representante às 6h da manhã dizendo que não vai ter aula. No meio de duas contas de e-mail, do Classroom e do portal da UFAM, isso se perde fácil.',
-          'Criei um bot que roda sozinho toda manhã: lê as atividades e o mural do Classroom, os e-mails das duas contas e as notas e faltas do eCampus. Os textos em linguagem natural passam pelo Claude, que identifica prova, entrega, aula cancelada, mudança de data ou suspensão geral das aulas — e deduz a disciplina pelo horário, pelo professor ou pelo assunto quando o texto não diz.',
-          'Tudo vira item no Notion (um painel do semestre com grade, prioridades, médias e faltas), evento no Google Calendar com lembrete um dia antes e um resumo no Telegram com as aulas do dia, as provas e entregas da semana e o que mudou. Se o professor muda a data, o item existente é atualizado em vez de duplicado; se a IA estiver indisponível, o bot avisa só o que parece urgente por palavras-chave e tenta de novo mais tarde.',
-          'Roda no GitHub Actions, sem servidor e com custo zero, disparado por um cron externo pra chegar sempre no mesmo horário. O que já foi visto fica salvo num arquivo de estado versionado no próprio repositório.'
+          'Na faculdade, as informações importantes chegam por todo lado: atividades no Google Classroom (em duas contas, a pessoal e a institucional), avisos soltos no mural, e-mails de professores, do representante da turma e da reitoria, e as notas e faltas no eCampus, o portal da UFAM. E nem sempre do jeito certo — muita prova é marcada só com um aviso no mural ("na próxima segunda é nossa primeira prova"), sem virar atividade com data, e aula cancelada costuma chegar num e-mail às 6h da manhã.',
+          'Eu queria um lugar só onde tudo isso aparecesse organizado, sem abrir cinco abas toda manhã. Então criei um bot que faz essa ronda por mim todo dia: entende os avisos escritos de qualquer jeito, mantém o Notion e o Google Agenda atualizados e me manda um resumo no Telegram antes da primeira aula.',
+          'A parte mais interessante foi lidar com a bagunça do mundo real: professor que adia a prova por e-mail, aula suspensa no mesmo dia de uma prova, prazo que muda no Classroom depois de já estar anotado no Notion. Cada um desses casos virou uma regra do bot.'
         ],
-        note: 'Uso todo dia no meu semestre. A versão pública não tem nenhum dado pessoal: tokens e senhas ficam nos Secrets do GitHub e a configuração real fica fora do git — o repositório traz um modelo pra quem quiser usar no próprio semestre.',
+        telegram: true,
+        tech: [
+          ['IA só onde precisa', 'atividades do Classroom e notas do eCampus já são dados estruturados e são tratados direto em Python. Só o texto livre (e-mails e avisos do mural) vai pro modelo, numa única chamada por execução.'],
+          ['Saída estruturada', 'o prompt leva a grade de horários, as disciplinas com seus apelidos e as avaliações já registradas; o Claude devolve um JSON com tipo, disciplina, data, motivo e abrangência. Datas relativas ("quinta que vem") são resolvidas a partir da data do e-mail, não da execução.'],
+          ['Mudança de data sem duplicar', 'cada avaliação registrada entra no prompt com um código curto (R1, R2...). Quando o professor adia uma prova, o modelo aponta qual item substituir e o bot atualiza o existente em vez de criar outro.'],
+          ['Idempotente e sem banco', 'cada item tem um ID externo gravado no Notion, e o mapeamento dos eventos do Calendar fica num state.json commitado no próprio repositório — rodar duas vezes não duplica nada.'],
+          ['eCampus sem API', 'a página de notas carrega a tabela via AJAX; o bot faz login e chama esse mesmo endpoint, convertendo o HTML em notas e faltas por disciplina.'],
+          ['Plano B', 'se a IA estiver fora do ar, um filtro por expressões regulares ainda detecta o urgente ("não haverá aula", "greve") e o dia fica pendente pra uma nova tentativa, sem perder nenhum e-mail.'],
+          ['Custo zero', 'GitHub Actions no plano gratuito, Claude Code em modo headless com a assinatura que eu já tinha, OAuth com escopos somente leitura e todos os tokens em GitHub Secrets.']
+        ],
+        note: 'Uso todo dia no meu semestre. A versão pública não tem nenhum dado pessoal: a configuração real fica fora do git e o repositório traz um modelo pra quem quiser usar no próprio semestre.',
         status: { text: 'EM USO DIÁRIO', live: true },
         links: [
           { href: 'https://github.com/samymallmann/assistente-academico', label: 'Ver no GitHub', type: 'code' }
@@ -216,6 +226,43 @@
         '</div>';
     }
 
+    // exemplo do resumo que o bot manda no Telegram (dados de exemplo, não é o meu semestre)
+    function renderTelegram(){
+      var linhas = [
+        '<b>🌅 Bom dia! Quinta, 08/10</b>',
+        '',
+        '<b>⚠️ Atenção</b>',
+        '🔁 <b>1ª Prova</b> mudou de Seg 05/10 para <b>Qua 07/10</b> às 10:00',
+        '❌ <b>Sem aula de Comunicações Digitais</b> — professor em banca',
+        '',
+        '<b>📚 Aulas hoje</b>',
+        '<s>08:00–10:00 Comunicações Digitais</s> ❌ cancelada',
+        '10:00–12:00 Libras',
+        '',
+        '<b>📅 Provas e trabalhos da semana</b>',
+        '🎤 Sex 09/10 — Avaliação do projeto (Arquitetura) ⚠️ <b>amanhã</b>',
+        '',
+        '<b>🆕 Novidades</b>',
+        '📊 Arquitetura: nota nova! média <b>8.50</b>'
+      ];
+      return '' +
+        '<div class="tg-mock">' +
+          '<div class="tg-mock-head"><span class="tg-mock-avatar">' + iconBot + '</span><span>Assistente Acadêmico<small>bot</small></span></div>' +
+          '<div class="tg-mock-body"><div class="tg-mock-msg">' +
+            linhas.map(function(l){ return l ? '<div>' + l + '</div>' : '<div class="gap"></div>'; }).join('') +
+          '</div></div>' +
+          '<div class="privacy-mock-caption">Exemplo do resumo diário no Telegram — dados de exemplo.</div>' +
+        '</div>';
+    }
+
+    function renderTech(items){
+      return '' +
+        '<div class="project-modal-tech">' +
+          '<div class="project-modal-addr">// POR DENTRO</div>' +
+          '<ul>' + items.map(function(it){ return '<li><strong>' + it[0] + ':</strong> ' + it[1] + '</li>'; }).join('') + '</ul>' +
+        '</div>';
+    }
+
     // capa do YouTube com botão de play — só carrega o vídeo de verdade (iframe) quando clicado
     function renderVideo(videoId){
       return '' +
@@ -234,6 +281,8 @@
       var bodyHtml = p.body.map(function(par){ return '<p>' + par + '</p>'; }).join('');
       var videoHtml = p.video ? renderVideo(p.video) : '';
       var mockHtml = p.mock ? renderMock() : '';
+      var telegramHtml = p.telegram ? renderTelegram() : '';
+      var techHtml = p.tech ? renderTech(p.tech) : '';
       var noteHtml = p.note ? '<p class="project-modal-note">' + p.note + '</p>' : '';
       var statusHtml = p.status ? '<div class="status-pill"><span class="dot' + (p.status.live ? ' live' : '') + '"></span>' + p.status.text + '</div>' : '';
       var linksHtml = (p.links && p.links.length)
@@ -248,7 +297,7 @@
         '<h3 id="modalTitle">' + p.title + '</h3>' +
         '<div class="project-modal-tags">' + tagsHtml + '</div>' +
         '<div class="project-modal-body">' + bodyHtml + '</div>' +
-        videoHtml + mockHtml + noteHtml + statusHtml + linksHtml;
+        videoHtml + mockHtml + telegramHtml + techHtml + noteHtml + statusHtml + linksHtml;
     }
 
     // troca a capa pelo player de verdade só quando o visitante clica em play
