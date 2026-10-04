@@ -902,6 +902,56 @@
   .pipeline-illustration span:nth-child(4){ opacity:.5; }
   .pipeline-illustration span:nth-child(5){ opacity:.35; }
 
+  /* chat do Telegram recebendo o resumo da manhã, pro card do assistente acadêmico */
+  .chat-illustration{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    width: 150px;
+  }
+  .chat-illustration .chat-time{
+    align-self: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--ink-faint);
+    margin-bottom: 2px;
+  }
+  .chat-illustration .msg{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 7px 9px;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px 8px 8px 2px;
+    background: var(--bg-raised-2);
+    opacity: 0;
+    animation: msg-in 5s ease-out infinite;
+  }
+  .chat-illustration .msg b{ display: block; height: 3px; border-radius: 2px; background: var(--accent); }
+  .chat-illustration .msg b + b{ background: var(--accent-dim); }
+  .chat-illustration .msg:nth-of-type(2){ animation-delay: .5s; }
+  .chat-illustration .msg:nth-of-type(3){ animation-delay: 1s; }
+  .chat-illustration .msg.typing{ flex-direction: row; gap: 4px; animation-delay: 1.5s; }
+  .chat-illustration .msg.typing i{
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--accent-bright);
+    animation: typing 1s ease-in-out infinite;
+  }
+  .chat-illustration .msg.typing i:nth-child(2){ animation-delay: .15s; }
+  .chat-illustration .msg.typing i:nth-child(3){ animation-delay: .3s; }
+  @keyframes msg-in{
+    0%{ opacity: 0; transform: translateY(6px); }
+    8%, 86%{ opacity: 1; transform: none; }
+    96%, 100%{ opacity: 0; transform: none; }
+  }
+  @keyframes typing{
+    0%, 60%, 100%{ transform: none; opacity: .5; }
+    30%{ transform: translateY(-3px); opacity: 1; }
+  }
+
   /* tabela minimalista de bits surgindo da esquerda pra direita, pro card do assembler MIPS */
   .bit-table-illustration{
     display: flex;
@@ -1029,4 +1079,5 @@
     [data-reveal]{ opacity: 1; transform: none; transition: none; }
     .status-dot, .scroll-cue .line::after, .buffer-illustration i, .pulse-illustration polyline, .status-pill .dot.live{ animation: none; }
     .bit-table-illustration .bit{ animation: none; opacity: 1; }
+    .chat-illustration .msg, .chat-illustration .msg.typing i{ animation: none; opacity: 1; }
   }

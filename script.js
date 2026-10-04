@@ -161,8 +161,24 @@
           { href: 'https://github.com/samymallmann/sistema-bancario-concorrente', label: 'Ver no GitHub', type: 'code' }
         ]
       },
+      assistente: {
+        addr: '0x04.5 · REPOSITÓRIO PÚBLICO',
+        title: 'Assistente Acadêmico',
+        tags: ['Python', 'Claude (IA)', 'GitHub Actions', 'Google APIs', 'Notion API', 'Telegram'],
+        body: [
+          'Na faculdade, prova e prazo nem sempre aparecem como atividade no Classroom. Muitas vezes é só um aviso no mural ("na próxima segunda é a primeira prova") ou um e-mail do representante às 6h da manhã dizendo que não vai ter aula. No meio de duas contas de e-mail, do Classroom e do portal da UFAM, isso se perde fácil.',
+          'Criei um bot que roda sozinho toda manhã: lê as atividades e o mural do Classroom, os e-mails das duas contas e as notas e faltas do eCampus. Os textos em linguagem natural passam pelo Claude, que identifica prova, entrega, aula cancelada, mudança de data ou suspensão geral das aulas — e deduz a disciplina pelo horário, pelo professor ou pelo assunto quando o texto não diz.',
+          'Tudo vira item no Notion (um painel do semestre com grade, prioridades, médias e faltas), evento no Google Calendar com lembrete um dia antes e um resumo no Telegram com as aulas do dia, as provas e entregas da semana e o que mudou. Se o professor muda a data, o item existente é atualizado em vez de duplicado; se a IA estiver indisponível, o bot avisa só o que parece urgente por palavras-chave e tenta de novo mais tarde.',
+          'Roda no GitHub Actions, sem servidor e com custo zero, disparado por um cron externo pra chegar sempre no mesmo horário. O que já foi visto fica salvo num arquivo de estado versionado no próprio repositório.'
+        ],
+        note: 'Uso todo dia no meu semestre. A versão pública não tem nenhum dado pessoal: tokens e senhas ficam nos Secrets do GitHub e a configuração real fica fora do git — o repositório traz um modelo pra quem quiser usar no próprio semestre.',
+        status: { text: 'EM USO DIÁRIO', live: true },
+        links: [
+          { href: 'https://github.com/samymallmann/assistente-academico', label: 'Ver no GitHub', type: 'code' }
+        ]
+      },
       mips: {
-        addr: '0x04.5 · EM DESENVOLVIMENTO',
+        addr: '0x04.6 · EM DESENVOLVIMENTO',
         title: 'Processador MIPS com Pipeline',
         tags: ['Verilog', 'MIPS', 'Pipeline'],
         body: [
