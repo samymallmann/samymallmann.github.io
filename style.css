@@ -935,20 +935,87 @@
   .project-card:hover .cards-illustration span:nth-child(2){ transform: translateY(-6px); }
   .project-card:hover .cards-illustration span:nth-child(3){ transform: translateY(-4px) rotate(6deg); }
 
-  /* mini pipeline do MIPS (5 estágios) */
-  /* displays de 7 segmentos com o vetor ordenado, pro card do MIPS monociclo */
-  .sevenseg-illustration{ display: flex; gap: 5px; }
-  .sevenseg-illustration span{
-    width: 22px; height: 36px;
-    display: grid; place-items: center;
+  /* banco de registradores sendo escrito a cada pulso de clock, pro card do MIPS monociclo:
+     a instrução troca a cada 1s e o registrador de destino pisca e recebe o valor novo */
+  .regfile-illustration{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
     font-family: var(--mono);
-    font-size: 20px; line-height: 1;
-    color: var(--accent-bright);
+  }
+  .regfile-illustration .regfile-top{ display: flex; align-items: center; gap: 12px; font-size: 13px; }
+  .regfile-illustration .regfile-clk{ color: var(--accent); overflow: hidden; }
+  .regfile-illustration .regfile-clk path{ animation: regfile-clk 1s linear infinite; }
+  @keyframes regfile-clk{ to{ transform: translateX(-24px); } }
+  .regfile-illustration .regfile-instr{ position: relative; width: 150px; height: 18px; color: var(--ink); }
+  .regfile-illustration .regfile-instr span{
+    position: absolute;
+    left: 0; top: 0;
+    white-space: pre;
+    opacity: 0;
+    animation: regfile-instr 4s infinite both;
+  }
+  .regfile-illustration .regfile-instr span:nth-child(2){ animation-delay: 1s; }
+  .regfile-illustration .regfile-instr span:nth-child(3){ animation-delay: 2s; }
+  .regfile-illustration .regfile-instr span:nth-child(4){ animation-delay: 3s; }
+  @keyframes regfile-instr{
+    0%{ opacity: 0; transform: translateY(5px); }
+    3%, 23%{ opacity: 1; transform: none; }
+    25%, 100%{ opacity: 0; }
+  }
+  .regfile-illustration .regfile-regs{ display: flex; gap: 7px; }
+  .regfile-illustration .reg{
+    width: 52px; height: 42px;
     border: 1px solid var(--line-strong);
     border-radius: 3px;
-    text-shadow: 0 0 6px rgba(87,168,220,.55);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    animation: regfile-flash 4s infinite;
   }
+  .regfile-illustration .reg small{ font-size: 9px; letter-spacing: .06em; color: var(--ink-faint); }
+  .regfile-illustration .val{ position: relative; min-width: 2ch; text-align: center; font-size: 15px; color: var(--ink-faint); }
+  /* o 0 antigo (i) some no mesmo instante em que o valor novo (b) aparece por cima */
+  .regfile-illustration .val i{ font-style: normal; animation: 4s infinite both; }
+  .regfile-illustration .val b{
+    position: absolute;
+    inset: 0;
+    text-align: center;
+    font-weight: 400;
+    color: var(--accent-bright);
+    text-shadow: 0 0 6px rgba(87,168,220,.5);
+    opacity: 0;
+    animation: 4s infinite both;
+  }
+  .regfile-illustration .reg:nth-child(1){ animation-delay: .3s; }
+  .regfile-illustration .reg:nth-child(2){ animation-delay: 1.3s; }
+  .regfile-illustration .reg:nth-child(3){ animation-delay: 2.3s; }
+  .regfile-illustration .reg:nth-child(4){ animation-delay: 3.3s; }
+  .regfile-illustration .reg:nth-child(1) b{ animation-name: regfile-w1; }
+  .regfile-illustration .reg:nth-child(2) b{ animation-name: regfile-w2; }
+  .regfile-illustration .reg:nth-child(3) b{ animation-name: regfile-w3; }
+  .regfile-illustration .reg:nth-child(4) b{ animation-name: regfile-w4; }
+  .regfile-illustration .reg:nth-child(1) i{ animation-name: regfile-o1; }
+  .regfile-illustration .reg:nth-child(2) i{ animation-name: regfile-o2; }
+  .regfile-illustration .reg:nth-child(3) i{ animation-name: regfile-o3; }
+  .regfile-illustration .reg:nth-child(4) i{ animation-name: regfile-o4; }
+  @keyframes regfile-flash{
+    0%{ border-color: var(--accent-bright); box-shadow: 0 0 10px rgba(87,168,220,.45); }
+    18%, 100%{ border-color: var(--line-strong); box-shadow: none; }
+  }
+  @keyframes regfile-w1{ 0%, 7%{ opacity: 0; } 9%, 96%{ opacity: 1; } 100%{ opacity: 0; } }
+  @keyframes regfile-w2{ 0%, 32%{ opacity: 0; } 34%, 96%{ opacity: 1; } 100%{ opacity: 0; } }
+  @keyframes regfile-w3{ 0%, 57%{ opacity: 0; } 59%, 96%{ opacity: 1; } 100%{ opacity: 0; } }
+  @keyframes regfile-w4{ 0%, 82%{ opacity: 0; } 84%, 96%{ opacity: 1; } 100%{ opacity: 0; } }
+  @keyframes regfile-o1{ 0%, 7%{ opacity: 1; } 9%, 96%{ opacity: 0; } 100%{ opacity: 1; } }
+  @keyframes regfile-o2{ 0%, 32%{ opacity: 1; } 34%, 96%{ opacity: 0; } 100%{ opacity: 1; } }
+  @keyframes regfile-o3{ 0%, 57%{ opacity: 1; } 59%, 96%{ opacity: 0; } 100%{ opacity: 1; } }
+  @keyframes regfile-o4{ 0%, 82%{ opacity: 1; } 84%, 96%{ opacity: 0; } 100%{ opacity: 1; } }
 
+  /* mini pipeline do MIPS (5 estágios) */
   .pipeline-illustration{ display: flex; gap: 4px; }
   .pipeline-illustration span{
     width: 20px; height: 40px;
@@ -1150,4 +1217,8 @@
     .status-dot, .scroll-cue .line::after, .buffer-illustration i, .pulse-illustration polyline, .status-pill .dot.live{ animation: none; }
     .bit-table-illustration .bit{ animation: none; opacity: 1; }
     .chat-illustration .msg, .chat-illustration .msg.typing i, .chat-illustration .chat-bot .eyes{ animation: none; opacity: 1; }
+    /* registradores: mostra o estado final, com a última instrução e todos os valores escritos */
+    .regfile-illustration .regfile-clk path, .regfile-illustration .reg{ animation: none; }
+    .regfile-illustration .regfile-instr span, .regfile-illustration .val b{ animation: none; opacity: 1; }
+    .regfile-illustration .regfile-instr span:not(:last-child), .regfile-illustration .val i{ animation: none; opacity: 0; }
   }
