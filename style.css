@@ -936,6 +936,19 @@
   .project-card:hover .cards-illustration span:nth-child(3){ transform: translateY(-4px) rotate(6deg); }
 
   /* mini pipeline do MIPS (5 estágios) */
+  /* displays de 7 segmentos com o vetor ordenado, pro card do MIPS monociclo */
+  .sevenseg-illustration{ display: flex; gap: 5px; }
+  .sevenseg-illustration span{
+    width: 22px; height: 36px;
+    display: grid; place-items: center;
+    font-family: var(--mono);
+    font-size: 20px; line-height: 1;
+    color: var(--accent-bright);
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    text-shadow: 0 0 6px rgba(87,168,220,.55);
+  }
+
   .pipeline-illustration{ display: flex; gap: 4px; }
   .pipeline-illustration span{
     width: 20px; height: 40px;
