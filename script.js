@@ -59,6 +59,69 @@
     });
   }
 
+  /* ---------- 2d) Card do MIPS monociclo: swap rodando no clock ----------
+     Trecho do swap inline do sort.asm (i = 1, j = 0, v = {8, 3, ...}).
+     Cada passo dura um período de clock: na borda de subida, o resultado
+     da instrução anterior é gravado (como no always @(posedge clk) do RTL)
+     e o PC passa pra próxima instrução. */
+  var regfile = document.querySelector('.regfile-illustration');
+  if (regfile && !prefersReducedMotion){
+    var rfSteps = [
+      { pc: '0x58', asm: 'lw   $t3, 0($t2)' },
+      { pc: '0x5C', asm: 'lw   $t4, 4($t2)',    write: ['t3', '8'] },
+      { pc: '0x60', asm: 'slt  $t0, $t4, $t3',  write: ['t4', '3'] },
+      { pc: '0x64', asm: 'beq  $t0, $0, exit2', write: ['t0', '1'] },
+      { pc: '0x68', asm: 'sw   $t4, 0($t2)' },   // beq não desvia: só PC + 4
+      { pc: '0x6C', asm: 'sw   $t3, 4($t2)',    write: ['v0', '3'] },
+      { pc: '0x70', asm: 'addi $s1, $s1, -1',   write: ['v1', '8'] }
+    ];
+    var rfInitial = { t3: '–', t4: '–', t0: '–', v0: '8', v1: '3' };
+    var RF_PERIOD = 1000;            // ms por ciclo de clock
+    var RF_PX = 34;                  // largura de um período na onda
+    var RF_HI = 3, RF_LO = 19;       // y do nível alto e baixo
+    var rfPc = regfile.querySelector('.regfile-pc');
+    var rfAsm = regfile.querySelector('.regfile-asm');
+    var rfClip = regfile.querySelector('.regfile-clip');
+    var rfHead = regfile.querySelector('.regfile-head');
+    var rfBoxes = {};
+    regfile.querySelectorAll('.reg').forEach(function(box){ rfBoxes[box.dataset.reg] = box; });
+    var rfCurrent = -1;
+    var rfStart = performance.now();
+
+    function rfRender(step){
+      var state = Object.assign({}, rfInitial);
+      for (var k = 1; k <= step; k++){
+        if (rfSteps[k].write) state[rfSteps[k].write[0]] = rfSteps[k].write[1];
+      }
+      Object.keys(rfBoxes).forEach(function(name){
+        var val = rfBoxes[name].querySelector('.val');
+        val.textContent = state[name];
+        val.classList.toggle('is-empty', state[name] === '–');
+      });
+      rfPc.textContent = rfSteps[step].pc;
+      rfAsm.textContent = rfSteps[step].asm;
+      var written = rfSteps[step].write;
+      if (written){
+        var box = rfBoxes[written[0]];
+        box.classList.add('is-written');
+        setTimeout(function(){ box.classList.remove('is-written'); }, 120);
+      }
+    }
+
+    function rfTick(now){
+      var t = (now - rfStart) % (rfSteps.length * RF_PERIOD);
+      var step = Math.floor(t / RF_PERIOD);
+      var phase = (t % RF_PERIOD) / RF_PERIOD;   // < 0.5: clock em 1, depois em 0
+      if (step !== rfCurrent){ rfCurrent = step; rfRender(step); }
+      var x = (step + phase) * RF_PX;
+      rfClip.setAttribute('width', x + 2);
+      rfHead.setAttribute('cx', x);
+      rfHead.setAttribute('cy', phase < 0.5 ? RF_HI : RF_LO);
+      requestAnimationFrame(rfTick);
+    }
+    requestAnimationFrame(rfTick);
+  }
+
   /* ---------- 3) Reveal ao entrar na viewport ---------- */
   var revealTargets = document.querySelectorAll('[data-reveal]');
   if ('IntersectionObserver' in window){
