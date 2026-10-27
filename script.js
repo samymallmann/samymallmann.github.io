@@ -197,6 +197,31 @@
         ],
         status: { text: 'REPOSITÓRIO APÓS AVALIAÇÃO', live: false }
       },
+      monociclo: {
+        addr: '0x04.7 · FPGA DE10-LITE',
+        title: 'Processador MIPS Monociclo',
+        tags: ['Verilog', 'MIPS', 'FPGA', 'Quartus Prime', 'Icarus Verilog'],
+        body: [
+          'Processador MIPS de 32 bits monociclo, escrito em Verilog e embarcado numa FPGA DE10-Lite. Monociclo quer dizer que cada instrução é buscada, decodificada, executada, acessa a memória e grava o resultado dentro de um único ciclo de clock.',
+          'Ele roda o programa de ordenação por inserção (sort/swap) do enunciado da disciplina e mostra o vetor ordenado nos 6 displays de 7 segmentos da placa, todos ao mesmo tempo. O botão KEY0 reinicia o programa e o vetor é ordenado de novo.',
+          'É a 2ª entrega da disciplina de Arquitetura de Sistemas Digitais: a mesma base do projeto com pipeline, agora com o jump, que fecha os laços do programa.'
+        ],
+        video: 'kyQxKPGruIw',
+        tech: [
+          ['Instruções', '12 no total: add, sub, and, or, slt e sll (tipo R), addi, lw, sw, beq e bne (tipo I) e o j (tipo J). O datapath é parametrizado pela largura (WIDTH) e foi testado com 16, 32 e 64 bits.'],
+          ['Controle em dois níveis', 'a unidade de controle olha só o opcode e gera os sinais do datapath; o controle da ULA combina o ALUOp com o funct pra escolher a operação. A flag zero da ULA decide o beq e o bne.'],
+          ['Sem laço combinacional', 'o banco de registradores não tem bypass: em addi $s1, $s1, -1 a mesma instrução lê e escreve $s1, e com bypass a saída da ULA voltaria pra entrada dela no mesmo ciclo.'],
+          ['Clock e reset', 'o clock de 50 MHz da placa é dividido por 2 pra dar folga ao caminho combinacional do monociclo. O divisor não é zerado pelo reset, senão o PC (reset síncrono) nunca receberia uma borda de clock pra zerar.'],
+          ['Seis displays de uma vez', 'um varredor lê v[0..5] por uma porta extra de leitura da memória de dados e guarda cada dígito num registrador próprio, sem atrapalhar o processador.'],
+          ['Verificação', '14 testbenches e 114 verificações no Icarus Verilog, com formas de onda no GTKWave. Na placa, foi testado com vários vetores, incluindo valores repetidos.'],
+          ['Troca de vetor', 'o binário é gerado pelo meu montador em Python e colado numa pasta fixa do projeto; é só recompilar no Quartus e gravar a placa.']
+        ],
+        status: { text: 'PRONTO', live: true },
+        links: [
+          { href: 'https://github.com/samymallmann/mips-monociclo', label: 'Ver no GitHub', type: 'code' },
+          { href: 'https://github.com/samymallmann/mips-assembler', label: 'Montador usado', type: 'code' }
+        ]
+      },
       assembler: {
         addr: '0x04.4 · REPOSITÓRIO PÚBLICO',
         title: 'Assembler para MIPS',
