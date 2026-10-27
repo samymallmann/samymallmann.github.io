@@ -43,6 +43,22 @@
     });
   });
 
+  /* ---------- 2c) Projetos em andamento sempre por último ----------
+     Qualquer card com a classe "in-progress" vai pro fim da grade,
+     não importa onde esteja no HTML. Depois renumera o endereço
+     (0x04.1, 0x04.2...) e o atraso do reveal pra seguir a nova ordem. */
+  var projectGrid = document.querySelector('.project-grid');
+  if (projectGrid){
+    projectGrid.querySelectorAll('.project-card.in-progress').forEach(function(card){
+      projectGrid.appendChild(card);
+    });
+    projectGrid.querySelectorAll('.project-card').forEach(function(card, i){
+      var addr = card.querySelector('.project-addr');
+      if (addr) addr.textContent = addr.textContent.replace(/^0x04\.\d+/, '0x04.' + (i + 1));
+      card.style.setProperty('--delay', (i * 100) + 'ms');
+    });
+  }
+
   /* ---------- 3) Reveal ao entrar na viewport ---------- */
   var revealTargets = document.querySelectorAll('[data-reveal]');
   if ('IntersectionObserver' in window){
