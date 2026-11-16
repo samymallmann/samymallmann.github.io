@@ -13,7 +13,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2304182b'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' fill='%2357a8dc' text-anchor='middle'%3ESM%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 
@@ -436,22 +436,49 @@
             </div>
           </article>
 
-          <!-- Projeto 7: MIPS Pipeline (em andamento — fica sempre por último) -->
-          <article class="project-card in-progress" data-reveal data-tilt data-project="mips" tabindex="0" role="button" aria-haspopup="dialog" style="--delay: 600ms">
-            <div class="project-addr">0x04.7 · EM DESENVOLVIMENTO</div>
+          <!-- Projeto 7: MIPS Pipeline -->
+          <article class="project-card" data-reveal data-tilt data-project="mips" tabindex="0" role="button" aria-haspopup="dialog" style="--delay: 600ms">
+            <div class="project-addr">0x04.7 · FPGA DE10-LITE</div>
             <div class="project-visual">
-              <div class="pipeline-illustration">
-                <span></span><span></span><span></span><span></span><span></span>
+              <!-- trecho real do sort.asm passando pelos 5 estagios (ciclos 39-48 da
+                   simulacao do RTL); o script.js anima: a cada borda de subida as
+                   instrucoes avancam um estagio, com bolha de load-use, stall de
+                   branch e forwarding. O HTML traz o ciclo 44 (estado sem JS). -->
+              <div class="pipe-illustration" aria-hidden="true">
+                <div class="regfile-clk">
+                  <span class="regfile-label">clk</span>
+                  <svg width="240" height="22" viewBox="0 -1 240 22">
+                    <defs><clipPath id="pipeClip"><rect class="pipe-clip" x="-2" y="-2" width="242" height="26"/></clipPath></defs>
+                    <path class="regfile-wave-ghost" d="M0,19 V3 H12 V19 H24 V3 H36 V19 H48 V3 H60 V19 H72 V3 H84 V19 H96 V3 H108 V19 H120 V3 H132 V19 H144 V3 H156 V19 H168 V3 H180 V19 H192 V3 H204 V19 H216 V3 H228 V19 H240"/>
+                    <path class="regfile-wave" d="M0,19 V3 H12 V19 H24 V3 H36 V19 H48 V3 H60 V19 H72 V3 H84 V19 H96 V3 H108 V19 H120 V3 H132 V19 H144 V3 H156 V19 H168 V3 H180 V19 H192 V3 H204 V19 H216 V3 H228 V19 H240" clip-path="url(#pipeClip)"/>
+                    <circle class="regfile-head pipe-head" cx="240" cy="19" r="2.5"/>
+                  </svg>
+                </div>
+                <div class="pipe-stages">
+                  <div class="stage hold" data-stage="if"><small>IF</small><span class="ins">sw $t4</span></div>
+                  <div class="stage hold" data-stage="id"><small>ID</small><span class="ins">beq</span></div>
+                  <div class="stage fwd-dst" data-stage="ex"><small>EX</small><span class="ins">slt</span></div>
+                  <div class="stage bubble" data-stage="mem"><small>MEM</small><span class="ins">bolha</span></div>
+                  <div class="stage fwd-src" data-stage="wb"><small>WB</small><span class="ins">lw $t4</span></div>
+                </div>
+                <div class="pipe-event"><span class="pipe-cyc">c44</span><span class="pipe-msg">forward MEM/WB → EX · stall do beq</span></div>
               </div>
             </div>
             <h3>Processador MIPS com Pipeline</h3>
-            <p class="project-desc">Processador MIPS com pipeline de 5 estágios em Verilog, tratando hazards de controle, dados e estruturais. Embarcado em FPGA e testado com um algoritmo de ordenação. Projeto atual da disciplina de Arquitetura de Sistemas Digitais.</p>
+            <p class="project-desc">Processador MIPS de 32 bits com pipeline de 5 estágios em Verilog, rodando numa FPGA DE10-Lite. Trata hazards de dados (forwarding e stall de load-use), de controle (branch decidido no ID e flush) e estruturais. Executa o mesmo programa de ordenação do monociclo e foi verificado com 20 testbenches e teste de mutação.</p>
             <div class="tag-row">
               <span class="tag">Verilog</span>
               <span class="tag">MIPS</span>
               <span class="tag">Pipeline</span>
+              <span class="tag">FPGA</span>
             </div>
-            <div class="status-pill"><span class="dot"></span>REPOSITÓRIO APÓS AVALIAÇÃO</div>
+            <div class="project-links">
+              <a href="https://github.com/samymallmann/mips-pipeline" target="_blank" rel="noopener" data-cursor="link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                Ver no GitHub
+              </a>
+            </div>
+            <div class="status-pill"><span class="dot live"></span>PRONTO</div>
             <div class="project-expand">Ver detalhes do projeto
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </div>
@@ -557,6 +584,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=6"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>

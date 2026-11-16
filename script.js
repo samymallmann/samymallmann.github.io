@@ -109,7 +109,7 @@
     }
 
     function rfTick(now){
-      var t = (now - rfStart) % (rfSteps.length * RF_PERIOD);
+      var t = Math.max(0, now - rfStart) % (rfSteps.length * RF_PERIOD);
       var step = Math.floor(t / RF_PERIOD);
       var phase = (t % RF_PERIOD) / RF_PERIOD;   // < 0.5: clock em 1, depois em 0
       if (step !== rfCurrent){ rfCurrent = step; rfRender(step); }
@@ -120,6 +120,72 @@
       requestAnimationFrame(rfTick);
     }
     requestAnimationFrame(rfTick);
+  }
+
+  /* ---------- 2e) Card do MIPS pipeline: 5 estagios rodando no clock ----------
+     Ciclos 39 a 48 da simulacao do RTL (mips_pipeline_top) rodando o sort.asm
+     do enunciado: primeira troca (v[0] = 8, v[1] = 3). A cada borda de subida
+     as instrucoes avancam um estagio. hold = estagio parado (stall),
+     fwd = [origem, destino] do forwarding. */
+  var pipe = document.querySelector('.pipe-illustration');
+  if (pipe && !prefersReducedMotion){
+    var B = 'bolha';
+    var pSteps = [
+      { c: 39, s: ['lw $t3', 'add', 'sll', 'bne', B],              msg: 'busca lw $t3' },
+      { c: 40, s: ['lw $t4', 'lw $t3', 'add', 'sll', 'bne'],       msg: 'forward EX/MEM → EX ($t1)', fwd: ['mem', 'ex'] },
+      { c: 41, s: ['slt', 'lw $t4', 'lw $t3', 'add', 'sll'],       msg: 'forward EX/MEM → EX ($t2)', fwd: ['mem', 'ex'] },
+      { c: 42, s: ['beq', 'slt', 'lw $t4', 'lw $t3', 'add'],       msg: 'load-use: slt espera $t4', hold: true },
+      { c: 43, s: ['beq', 'slt', B, 'lw $t4', 'lw $t3'],           msg: 'bolha entra no EX' },
+      { c: 44, s: ['sw $t4', 'beq', 'slt', B, 'lw $t4'],           msg: 'forward MEM/WB → EX · stall do beq', fwd: ['wb', 'ex'], hold: true },
+      { c: 45, s: ['sw $t4', 'beq', B, 'slt', B],                  msg: 'beq espera $t0 (slt no MEM)', hold: true },
+      { c: 46, s: ['sw $t4', 'beq', B, B, 'slt'],                  msg: 'beq decide no ID: não desvia' },
+      { c: 47, s: ['sw $t3', 'sw $t4', 'beq', B, B],               msg: 'swap: v[j] = v[j+1]' },
+      { c: 48, s: ['addi', 'sw $t3', 'sw $t4', 'beq', B],          msg: 'swap: v[j+1] = v[j]' }
+    ];
+    var P_NAMES = ['if', 'id', 'ex', 'mem', 'wb'];
+    var P_PERIOD = 1100;             // ms por ciclo de clock
+    var P_PX = 24;                   // largura de um periodo na onda
+    var P_HI = 3, P_LO = 19;
+    var pBoxes = P_NAMES.map(function(n){ return pipe.querySelector('[data-stage="' + n + '"]'); });
+    var pCyc = pipe.querySelector('.pipe-cyc');
+    var pMsg = pipe.querySelector('.pipe-msg');
+    var pClip = pipe.querySelector('.pipe-clip');
+    var pHead = pipe.querySelector('.pipe-head');
+    var pCurrent = -1;
+    var pStart = performance.now();
+
+    function pRender(step){
+      var st = pSteps[step];
+      var before = pSteps[(step + pSteps.length - 1) % pSteps.length];
+      pBoxes.forEach(function(box, k){
+        var name = P_NAMES[k];
+        var ins = st.s[k];
+        box.querySelector('.ins').textContent = ins;
+        box.classList.toggle('bubble', ins === B);
+        box.classList.toggle('hold', !!st.hold && k < 2);
+        box.classList.toggle('fwd-src', !!st.fwd && st.fwd[0] === name);
+        box.classList.toggle('fwd-dst', !!st.fwd && st.fwd[1] === name);
+        if (ins !== before.s[k] && ins !== B){
+          box.classList.add('is-written');
+          setTimeout(function(){ box.classList.remove('is-written'); }, 120);
+        }
+      });
+      pCyc.textContent = 'c' + st.c;
+      pMsg.textContent = st.msg;
+    }
+
+    function pTick(now){
+      var t = Math.max(0, now - pStart) % (pSteps.length * P_PERIOD);
+      var step = Math.floor(t / P_PERIOD);
+      var phase = (t % P_PERIOD) / P_PERIOD;
+      if (step !== pCurrent){ pCurrent = step; pRender(step); }
+      var x = (step + phase) * P_PX;
+      pClip.setAttribute('width', x + 2);
+      pHead.setAttribute('cx', x);
+      pHead.setAttribute('cy', phase < 0.5 ? P_HI : P_LO);
+      requestAnimationFrame(pTick);
+    }
+    requestAnimationFrame(pTick);
   }
 
   /* ---------- 3) Reveal ao entrar na viewport ---------- */
@@ -267,17 +333,30 @@
         ]
       },
       mips: {
-        addr: '0x04.6 · EM DESENVOLVIMENTO',
+        addr: '0x04.7 · FPGA DE10-LITE',
         title: 'Processador MIPS com Pipeline',
-        tags: ['Verilog', 'MIPS', 'Pipeline'],
+        tags: ['Verilog', 'MIPS', 'Pipeline', 'FPGA', 'Quartus Prime', 'Icarus Verilog'],
         body: [
-          'Processador MIPS com pipeline de 5 estágios (IF, ID, EX, MEM, WB) descrito em Verilog, tratando hazards de controle, dados e estruturais.',
-          'Está sendo embarcado numa FPGA e testado rodando um algoritmo de ordenação. É o projeto atual da disciplina de Arquitetura de Sistemas Digitais — o repositório vai ao ar assim que a avaliação terminar.'
+          'Processador MIPS de 32 bits com pipeline de 5 estágios (IF, ID, EX, MEM, WB), escrito em Verilog e embarcado numa FPGA DE10-Lite. Até 5 instruções ficam em execução ao mesmo tempo, uma em cada estágio, separadas por registradores de pipeline.',
+          'Roda o mesmo programa de ordenação por inserção do monociclo, com o mesmo binário: os perigos são resolvidos em hardware, sem nop no código. O vetor aparece nos 6 displays de 7 segmentos.',
+          'É a 3ª entrega da disciplina de Arquitetura de Sistemas Digitais, feita em equipe de três.'
         ],
-        status: { text: 'REPOSITÓRIO APÓS AVALIAÇÃO', live: false }
+        tech: [
+          ['Perigos de dados', 'unidade de forwarding leva o resultado de EX/MEM ou MEM/WB direto pra entrada da ULA. Quando um lw é seguido de uma instrução que usa o valor, a unidade de detecção de hazards segura o pipeline 1 ciclo e insere uma bolha.'],
+          ['Perigos de controle', 'beq, bne e j são decididos já no ID, então o desvio tomado custa só 1 ciclo de flush em vez de 3. Se o branch depende de um resultado ainda em EX ou MEM, ele espera em stall.'],
+          ['Perigo estrutural', 'não existe por construção: memórias de instrução e de dados separadas e banco de registradores que escreve e lê no mesmo ciclo (write-first).'],
+          ['Monociclo × pipeline', 'com o mesmo clock, o sort do enunciado leva 160 ciclos no monociclo e 248 na pipeline, por causa do enchimento, das bolhas e dos flushes. O ganho da pipeline está no período do clock: cada estágio tem só um pedaço do caminho do lw.'],
+          ['Clock lento na placa', 'a CPU roda a 10 Hz (parâmetro CPU_CLK_HZ) pra dar pra ver as trocas acontecendo nos displays, com o mesmo top e o mesmo clock da versão monociclo.'],
+          ['Verificação', '20 testbenches e 239 verificações no Icarus Verilog, mais um teste de mutação que injeta 94 bugs no RTL: 93 são pegos pelos testes (o restante é equivalente neste programa).']
+        ],
+        status: { text: 'PRONTO', live: true },
+        links: [
+          { href: 'https://github.com/samymallmann/mips-pipeline', label: 'Ver no GitHub', type: 'code' },
+          { href: 'https://github.com/samymallmann/mips-monociclo', label: 'Versão monociclo', type: 'code' }
+        ]
       },
       monociclo: {
-        addr: '0x04.7 · FPGA DE10-LITE',
+        addr: '0x04.6 · FPGA DE10-LITE',
         title: 'Processador MIPS Monociclo',
         tags: ['Verilog', 'MIPS', 'FPGA', 'Quartus Prime', 'Icarus Verilog'],
         body: [
