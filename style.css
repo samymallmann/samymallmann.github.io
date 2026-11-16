@@ -979,19 +979,70 @@
     transition: none;
   }
 
-  /* mini pipeline do MIPS (5 estágios) */
-  .pipeline-illustration{ display: flex; gap: 4px; }
-  .pipeline-illustration span{
-    width: 20px; height: 40px;
-    border: 1px solid var(--line-strong);
-    border-radius: 2px;
-    background: transparent;
+  /* pipeline de 5 estagios rodando o sort.asm, pro card do MIPS pipeline.
+     Reaproveita o clock (.regfile-clk/.regfile-wave) do card do monociclo.
+     A cada borda de subida o script.js avanca as instrucoes um estagio;
+     .bubble = bolha, .hold = estagio parado (stall), .fwd-src/.fwd-dst = forwarding. */
+  .pipe-illustration{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
   }
-  .pipeline-illustration span:nth-child(1){ opacity:.35; }
-  .pipeline-illustration span:nth-child(2){ opacity:.5; }
-  .pipeline-illustration span:nth-child(3){ opacity:.65; border-color: var(--accent); }
-  .pipeline-illustration span:nth-child(4){ opacity:.5; }
-  .pipeline-illustration span:nth-child(5){ opacity:.35; }
+  .pipe-illustration svg{ overflow: visible; }
+  .pipe-illustration .regfile-clk{ display: flex; align-items: center; gap: 10px; }
+  .pipe-illustration .regfile-label{ font-size: 10px; letter-spacing: .06em; color: var(--ink-faint); }
+  .pipe-illustration .regfile-wave-ghost{ fill: none; stroke: var(--line); stroke-width: 1.4; }
+  .pipe-illustration .regfile-wave{ fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linejoin: round; }
+  .pipe-illustration .regfile-head{ fill: var(--accent-bright); filter: drop-shadow(0 0 3px var(--accent)); }
+  .pipe-illustration .pipe-stages{ display: flex; gap: 5px; }
+  .pipe-illustration .stage{
+    position: relative;
+    width: 52px; height: 42px;
+    border: 1px solid var(--line-strong);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    transition: border-color .6s ease, box-shadow .6s ease, opacity .4s ease;
+  }
+  /* setinha entre estagios */
+  .pipe-illustration .stage + .stage::before{
+    content: '';
+    position: absolute;
+    left: -5px; top: 50%;
+    width: 5px; height: 1px;
+    background: var(--line-strong);
+  }
+  .pipe-illustration .stage small{ font-size: 9px; letter-spacing: .06em; color: var(--ink-faint); }
+  .pipe-illustration .ins{
+    font-size: 11px;
+    white-space: nowrap;
+    color: var(--accent-bright);
+    text-shadow: 0 0 6px rgba(87,168,220,.5);
+  }
+  .pipe-illustration .stage.bubble{ border-style: dashed; opacity: .55; }
+  .pipe-illustration .stage.bubble .ins{ color: var(--ink-faint); text-shadow: none; }
+  .pipe-illustration .stage.hold{ border-style: dashed; border-color: var(--accent-dim); }
+  .pipe-illustration .stage.hold small::after{ content: ' ‖'; color: var(--accent); }
+  .pipe-illustration .stage.fwd-src,
+  .pipe-illustration .stage.fwd-dst{
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(87,168,220,.35);
+  }
+  .pipe-illustration .stage.fwd-src small::after{ content: ' ↺'; color: var(--accent); }
+  /* borda de subida: o estagio que recebeu instrucao nova acende rapidinho */
+  .pipe-illustration .stage.is-written{
+    border-color: var(--accent-bright);
+    box-shadow: 0 0 10px rgba(87,168,220,.45);
+    transition: none;
+  }
+  .pipe-illustration .pipe-event{ display: flex; gap: 10px; font-size: 11px; min-height: 14px; }
+  .pipe-illustration .pipe-cyc{ color: var(--ink-faint); }
+  .pipe-illustration .pipe-msg{ color: var(--ink); white-space: nowrap; }
 
   /* chat do Telegram recebendo o resumo da manhã, pro card do assistente acadêmico */
   .chat-illustration{
